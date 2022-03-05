@@ -22,9 +22,9 @@ public class BranchBL {
         return branches;
     }
 
-    public Branch addBranch(Branch branche) throws Exception {
-        Branch branche1 = branchDL.insertBranch(branche);
-        return branche1;
+    public void addBranch(Branch branche) throws Exception {
+        branchDL.insertBranch(branche);
+//        return branche1;
     }
 
     public Branch searchBranch(int id,int bank_id) throws Exception {
@@ -59,6 +59,9 @@ public class BranchBL {
         branchDL.deleteBranch(id);
     }
 
+    public ArrayList<Branch> searchByName(String name) throws SQLException {
+        return branchDL.searchByName(name);
+    }
 
 
 

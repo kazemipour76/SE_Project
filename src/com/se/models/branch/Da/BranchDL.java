@@ -88,7 +88,23 @@ public class BranchDL extends ConnectionDB{
         closeConnection(connection);
     }
 
-
+    public ArrayList<Branch> searchByName(String name) throws SQLException {
+        Connection connection = createConnection();
+        ArrayList<Branch> branches = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM branch_bank WHERE name LIKE ?");
+        statement.setString(1, "%" + name + "%");
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Branch branch = new Branch();
+            branch.setId(resultSet.getInt(1));
+            branch.setName(resultSet.getString(2));
+            branch.setAddress(resultSet.getString(3));
+            branch.setBank_id(resultSet.getInt(4));
+            branches.add(branch);
+        }
+        closeConnection(connection);
+        return branches;
+    }
 
     public void deleteByIdAndBankId(int id, int bank_id) throws SQLException {
         Connection connection = createConnection();
