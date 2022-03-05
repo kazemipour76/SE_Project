@@ -77,7 +77,7 @@ public class CustomerDA extends ConnectionDB {
 
 
         Connection connection = createConnection();
-        PreparedStatement statement = connection.prepareStatement("UPDATE person SET name = ? , national_code= ?, password= ? where id = ?");
+        PreparedStatement statement = connection.prepareStatement("UPDATE customer SET name = ? , national_code= ?, password= ? where id = ?");
         statement.setString(1, customer.getName());
         statement.setString(2, customer.getNational_code());
         statement.setString(3, customer.getPassword());
@@ -120,6 +120,9 @@ public class CustomerDA extends ConnectionDB {
             customer.setBranch_id(resultSet.getInt(5));
         }
         closeConnection(connection);
+        if (customer==null){
+            return null;
+        }
         return customer;
     }
 

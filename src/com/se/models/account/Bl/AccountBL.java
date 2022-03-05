@@ -15,7 +15,7 @@ public class AccountBL {
     }
 
 
-    public ArrayList<Account> getCustomer() throws Exception {
+    public ArrayList<Account> getAccount() throws Exception {
         ArrayList<Account> customers = accountDA.accountsList();
         return customers;
     }
@@ -26,16 +26,16 @@ public class AccountBL {
         return account1;
     }
 
-    public Account searchAccount(int id,int customer_id) throws Exception {
+    public ArrayList<Account> searchAccount(int customer_id) throws Exception {
         Account account = null;
         ArrayList<Account> accounts = accountDA.searchByCustomerId(customer_id);
-        for (Account account1 : accounts) {
-            if (account1.getId()==id) {
-                account = account1;
-
-            }
-        }
-        return account;
+//        for (Account account1 : accounts) {
+//            if (account1.getId()==id) {
+//                account = account1;
+//
+//            }
+//        }
+        return accounts;
     }
 
 

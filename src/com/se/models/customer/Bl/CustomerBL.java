@@ -27,9 +27,14 @@ public class CustomerBL {
         return Customer1;
     }
 
-    public Customer searchCustomer(int id,String national_code) throws Exception {
+    public Customer searchCustomer(String national_code) throws Exception {
         Customer customer = customerDA.searchByNationalCode(national_code);
-        return customer;
+        if (customer==null){
+            return null;
+        }else {
+
+            return customer;
+        }
     }
 
     public Customer searchBranchId(int id, int branch_id) throws Exception {
@@ -46,16 +51,18 @@ public class CustomerBL {
 
     public Customer find(int id) throws SQLException, ClassNotFoundException {
 
-        Customer Customer = customerDA.find(id);
-        return Customer;
+        Customer customer = customerDA.find(id);
+
+        return customer;
 
     }
 
-    public void update(Customer customer ,int customer_id) throws SQLException, ClassNotFoundException {
+    public int update(Customer customer ,int customer_id) throws SQLException, ClassNotFoundException {
+        int res=0;
         if (customer != null && customer.getBranch_id() == customer_id) {
-            customerDA.editCustomer(customer);
+           res=  customerDA.editCustomer(customer);
         }
-//        return account;
+        return res;
     }
     public void delete(int id, int customer_id) throws SQLException {
         customerDA.deleteByIdAndBranchId(id, customer_id);
