@@ -26,16 +26,11 @@ public class LoanBL {
         return loan1;
     }
 
-    public Loan searchLoan(int id,int customer_id) throws Exception {
+    public ArrayList<Loan> searchLoan(int customer_id) throws Exception {
         Loan loan = null;
         ArrayList<Loan> loans = loanDA.searchByCustomerId(customer_id);
-        for (Loan loan1 : loans) {
-            if (loan1.getId()==id) {
-                loan = loan1;
 
-            }
-        }
-        return loan;
+        return loans;
     }
 
 

@@ -81,7 +81,7 @@ public class CustomerDA extends ConnectionDB {
         statement.setString(1, customer.getName());
         statement.setString(2, customer.getNational_code());
         statement.setString(3, customer.getPassword());
-        statement.setInt(4, customer.getBranch_id());
+        statement.setInt(4, customer.getId());
 
         int rowEffect = statement.executeUpdate();
         closeConnection(connection);

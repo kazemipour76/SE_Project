@@ -6,6 +6,8 @@ import com.se.models.branch.Bl.BranchBL;
 import com.se.models.branch.To.Branch;
 import com.se.models.customer.Bl.CustomerBL;
 import com.se.models.customer.To.Customer;
+import com.se.models.loan.Bl.LoanBL;
+import com.se.models.loan.To.Loan;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -44,16 +46,15 @@ public class Main {
                                 BranchBL branchBL = new BranchBL();
                                 branchBL.addBranch(branch);
 
-                                ArrayList<Branch> branches = new ArrayList<>();
-//                                BranchBL branchBL = new BranchBL();
-                                branches = branchBL.getBranch();
-                                for (Branch branch1 : branches) {
-                                    System.out.println("id is :" + "" + branch1.getId());
-                                    System.out.println("name is :" + branch1.getName());
-                                    System.out.println("address is :" + branch1.getAddress());
-                                    System.out.println("-----------------------------------");
-
-                                }
+//                                ArrayList<Branch> branches = new ArrayList<>();
+//                                branches = branchBL.getBranch();
+//                                for (Branch branch1 : branches) {
+//                                    System.out.println("id is :" + "" + branch1.getId());
+//                                    System.out.println("name is :" + branch1.getName());
+//                                    System.out.println("address is :" + branch1.getAddress());
+//                                    System.out.println("-----------------------------------");
+//
+//                                }
 
                                 break;
                             } catch (Exception e) {
@@ -77,6 +78,7 @@ public class Main {
                                 e.printStackTrace();
                             }
 
+                            break;
 
                     }
                 case 2:
@@ -90,7 +92,6 @@ public class Main {
                     switch (customer) {
                         case 1:
                             try {
-//                                Branch branchCustomer = new Branch();
                                 BranchBL branchBL = new BranchBL();
                                 Customer customer1 = new Customer();
                                 System.out.print("Enter name: ");
@@ -115,7 +116,6 @@ public class Main {
 
 
                                 ArrayList<Customer> customers = new ArrayList<>();
-//                                BranchBL branchBL = new BranchBL();
                                 customers = customerBL1.getCustomer();
                                 for (Customer item : customers) {
                                     System.out.println("id is :" + "" + item.getId());
@@ -176,28 +176,13 @@ public class Main {
                                     System.out.println(" national_code not found ");
 
                                 } else {
-                                    BranchBL branchBL = new BranchBL();
-                                    Customer customer2 = new Customer();
                                     System.out.print("Enter name: ");
                                     customer1.setName(scanner.next());
                                     System.out.print("Enter pass: ");
                                     customer1.setPassword(scanner.next());
                                     System.out.print("Enter national_code: ");
                                     customer1.setNational_code(scanner.next());
-//                                    System.out.print("Enter nameBranchBank: ");
-//                                    ArrayList <Branch> b2ranches =new ArrayList<>();
-//                                    int idBranch=0;
-//                                    String nameBranch=null;
-//                                    branches= branchBL.searchByName(scanner.next());
-//                                    if(branches==null){
-//                                        System.out.println("nameBranchBank not Found ");
-//                                        break;
-//                                    }
-//                                    for (Branch branch1 : branches) {
-//                                        idBranch= branch1.getId();
-//                                        nameBranch= branch1.getName();
-//                                    }
-//                                    customer1.setBranch_id(idBranch);
+
                                     int res = customerBL1.update(customer1, customer1.getId());
                                     if (res == 0) {
                                         System.out.println(" pleas try again");
@@ -218,7 +203,7 @@ public class Main {
                             System.out.println("show balance [3]");
                             System.out.println("add balance [4]");
                             System.out.println("Withdrawal from a Bank َAccount [5]");
-                            System.out.println("close Account [7]");
+                            System.out.println("close Account [6]");
                             int numAccount = scanner.nextInt();
                             switch (numAccount) {
                                 case 1:
@@ -301,29 +286,225 @@ public class Main {
                                                     System.out.println("type is :shortTerm ");
                                                 if (account1.getType() == 1)
                                                     System.out.println("type is :longTerm ");
-                                                System.out.println(" balance is : "+account1.getBalance());
+                                                System.out.println(" balance is : " + account1.getBalance());
 
                                             }
-                                           }
-
-                                            break;
-                                        } catch(Exception e){
-                                            e.printStackTrace();
                                         }
+
+                                        break;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
 
+                                case 4:
+                                    try {
+                                        AccountBL accountBL = new AccountBL();
+                                        Account account = new Account();
+                                        Customer customer1 = new Customer();
+                                        CustomerBL customerBL1 = new CustomerBL();
+
+                                        System.out.print("Enter national_code: ");
+                                        customer1 = customerBL1.searchCustomer(scanner.next());
+
+                                        if (customer1.getNational_code() == null) {
+                                            System.out.println(" national_code not found ");
+
+                                        } else {
+                                            System.out.println("for type longTerm [1] OR for type shortTerm [2]");
+                                            type = scanner.nextInt();
+
+                                            account = accountBL.searchAccount(type, customer1.getId());
+                                            if (account == null) {
+                                                System.out.println("type not found ");
+                                                break;
+
+                                            }
+                                            System.out.println("enter amount deposit ");
+                                            account.setBalance(account.getBalance() + scanner.nextInt());
+                                            int res = accountBL.update(account, customer1.getId());
+                                            if (res == 1) {
+                                                System.out.println("موجودی حساب با موفقیت افزایش یافت");
+
+                                            } else {
+                                                System.out.println("مجدد تلاش کنید");
+                                            }
+                                        }
+                                        break;
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                case 5:
+                                    try {
+                                        AccountBL accountBL = new AccountBL();
+                                        Account account = new Account();
+                                        Customer customer1 = new Customer();
+                                        CustomerBL customerBL1 = new CustomerBL();
+
+                                        System.out.print("Enter national_code: ");
+                                        customer1 = customerBL1.searchCustomer(scanner.next());
+
+                                        if (customer1.getNational_code() == null) {
+                                            System.out.println(" national_code not found ");
+
+                                        } else {
+                                            System.out.println("for type longTerm [1] OR for type shortTerm [2]");
+                                            type = scanner.nextInt();
+
+                                            account = accountBL.searchAccount(type, customer1.getId());
+                                            if (account == null) {
+                                                System.out.println("type not found ");
+                                                break;
+
+                                            }
+                                            System.out.println("enter amount Withdrawal from a Bank َAccount ");
+                                            int result = account.getBalance() - scanner.nextInt();
+                                            if (result <= 0) {
+                                                System.out.println("موجودی حساب کافی نیست");
+                                                break;
+
+                                            }
+                                            account.setBalance(result);
+                                            int res = accountBL.update(account, customer1.getId());
+                                            if (res == 1) {
+                                                System.out.println("تراکنش با موفقیت انجام شد");
+
+                                            } else {
+                                                System.out.println("مجدد تلاش کنید");
+                                            }
+
+                                        }
+                                        break;
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                case 6:
+                                    try {
+                                        AccountBL accountBL = new AccountBL();
+                                        Account account = new Account();
+                                        Customer customer1 = new Customer();
+                                        CustomerBL customerBL1 = new CustomerBL();
+
+                                        System.out.print("Enter national_code: ");
+                                        customer1 = customerBL1.searchCustomer(scanner.next());
+
+                                        if (customer1.getNational_code() == null) {
+                                            System.out.println(" national_code not found ");
+
+                                        } else {
+                                            System.out.println("for type longTerm [1] OR for type shortTerm [2]");
+                                            type = scanner.nextInt();
+
+                                            account = accountBL.searchAccount(type, customer1.getId());
+                                            if (account == null) {
+                                                System.out.println("type not found ");
+                                                break;
+
+                                            }
+                                            int status = accountBL.delete(account.getType(), customer1.getId());
+                                            if (status == 0) {
+                                                System.out.println("حساب با موفقیت بسته شد");
+
+                                            } else {
+                                                System.out.println("مجدد تلاش کنید");
+                                            }
+
+                                        }
+                                        break;
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                            }
+                        case 6:
+                            System.out.println("get loan [1]");
+                            System.out.println("List loan [2]");
+                            int numLoan = scanner.nextInt();
+                            switch (numLoan) {
+                                case 1:
+                                    int type;
+
+                                    System.out.println("enter national_code for select customer");
+
+                                    try {
+
+                                        Customer customer1 = customerBL.searchCustomer(scanner.next());
+                                        if (customer1 == null) {
+                                            System.out.println(" national_code not found ");
+                                            break;
+
+                                        } else {
+                                            System.out.println("for type longTerm [1] OR for type shortTerm [2]");
+                                            type = scanner.nextInt();
+                                            AccountBL accountBL = new AccountBL();
+                                            Account account = new Account();
+//                                            account.setCustomer_id(customer1.getId());
+                                            account = accountBL.searchAccount(type, customer1.getId());
+                                            if ( account.getType() == 2) {
+                                                if (account.getBalance() >= 200000 ){
+                                                    Loan loan =new Loan();
+                                                    LoanBL loanBL =new LoanBL();
+                                                    loan.setType(1);
+                                                    loan.setCustomer_id(customer1.getId());
+                                                    loan.setAmount(500000);
+                                                    loanBL.addLoan(loan);
+                                                    System.out.println("وام به مبلغ500000 تومان به این حساب پرداخت شد ");
+                                                    break;
+                                                }else {
+                                                    System.out.println("حد اقل موجودی برای دریافت وام روی حساب  بلند  مدت 200000تومان می باشد موجودی کافی نیست ");
+
+                                                }
+
+                                            }
+                                            if (account.getType() == 1) {
+                                                if(account.getBalance() >= 500000 ){
+                                                    Loan loan =new Loan();
+                                                    LoanBL loanBL =new LoanBL();
+                                                    loan.setType(1);
+                                                    loan.setCustomer_id(customer1.getId());
+                                                    loan.setAmount(1000000);
+                                                    loanBL.addLoan(loan);
+                                                    System.out.println("وام به مبلغ1000000 تومان به این حساب پرداخت شد ");
+                                                    break;
+
+                                                }else {
+                                                    System.out.println("حد اقل موجودی برای دریافت وام روی حساب  بلند  مدت 500000تومان می باشد موجودی کافی نیست ");
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                case 2:
+
+                                    try {
+                                        System.out.println("enter national_code for select customer");
+                                        Customer customer1 = customerBL.searchCustomer(scanner.next());
+                                        if (customer1 == null) {
+                                            System.out.println(" national_code not found ");
+                                            break;
+
+                                        } else {
+                                            ArrayList<Loan> loans = new ArrayList<>();
+                                            LoanBL loanBL =new LoanBL();
+                                            loans= loanBL.searchLoan(customer1.getId());
+
+                                            for (Loan loan:loans ) {
+                                                System.out.println(" customer is "+customer1.getName());
+                                                System.out.println(" Amount loan " +loan.getAmount());
+                                            }
+                                        }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                             }
                     }
             }
 
-
-//            AccountBL accountBL = new AccountBL();
-//            accountBL.delete(1, 1);
-//            Account account = accountBL.searchAccount(1, 1);
-//            account.setBalance(20000);
-//            account.setType(3);
-//            accountBL.update(account, 1);
-//            System.out.println(account);
-
         }
     }
+}

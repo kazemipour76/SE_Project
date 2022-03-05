@@ -57,9 +57,9 @@ public class CustomerBL {
 
     }
 
-    public int update(Customer customer ,int customer_id) throws SQLException, ClassNotFoundException {
+    public int update(Customer customer ,int id) throws SQLException, ClassNotFoundException {
         int res=0;
-        if (customer != null && customer.getBranch_id() == customer_id) {
+        if (customer != null && customer.getId() == id) {
            res=  customerDA.editCustomer(customer);
         }
         return res;

@@ -94,13 +94,15 @@ public class AccountDA extends ConnectionDB{
 
 
 
-    public void deleteByIdAndCustomerId(int id, int customer_id) throws SQLException {
+    public int deleteByIdAndCustomerId(int type, int customer_id) throws SQLException {
         Connection connection = createConnection();
-        PreparedStatement st = connection.prepareStatement("DELETE FROM account WHERE  id = ? AND customer_id = ?");
-        st.setInt(1, id);
+        PreparedStatement st = connection.prepareStatement("DELETE FROM account WHERE  type = ? AND customer_id = ?");
+        st.setInt(1, type);
         st.setInt(2, customer_id);
         st.executeUpdate();
+        int status=st.executeUpdate();
         closeConnection(connection);
+        return status;
     }
 
 
